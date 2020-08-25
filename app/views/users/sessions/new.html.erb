@@ -1,0 +1,30 @@
+<h3 class="heading">Log in</h3>
+<br/>
+
+<%= form_for(resource, as: resource_name, url: session_path(resource_name), class: 'form-horizontal') do |f| %>
+  <div class="row form-group">
+    <%= f.label :email, class: 'form-control col-1' %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control col-4' %>
+  </div>
+
+  <div class="row form-group">
+    <%= f.label :password, class: 'form-control col-1' %><br />
+    <%= f.password_field :password, autocomplete: "current-password", class: 'form-control col-4' %>
+  </div>
+
+  <% if devise_mapping.rememberable? %>
+    <div class="row form-group">
+      <%= f.check_box :remember_me, class: 'col-1' %>
+      <%= f.label :remember_me, class: 'form-control col-4' %>
+    </div>
+  <% end %>
+
+  <div class="form-group row">
+    <div class="col-3"></div>
+    <div class="col-1">
+      <%= f.submit "Log in", class: 'btn btn-lg btn-primary pull-right' %>
+    </div>
+  </div>
+<% end %>
+
+<%= render "users/shared/links" %>

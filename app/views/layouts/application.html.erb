@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= application_name %></title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+  <body>
+    <%= render 'shared/header' %>
+    <div  class='container-fluid'>
+      <div class='row'>
+        <%= render 'shared/sidebar' if user_signed_in? %>
+        <main role="main" class="col-10 ml-sm-auto px-4">
+          <br/>
+          <%= render 'shared/flash' %>
+          <%= yield %>
+        </main>      
+      </div>
+    </div>
+  </body>
+</html>

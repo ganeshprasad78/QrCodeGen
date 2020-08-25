@@ -1,0 +1,29 @@
+<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-2 mr-0 px-3" href="#"><%= application_name %></a>
+  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <% if user_signed_in? %>
+    <span style="color:white;"><%= current_user.full_name %></span>
+  <% end %>
+  <ul class="navbar-nav px-3">
+    <% if user_signed_in? %>
+      <li class="nav-item text-nowrap">
+        <%= link_to 'Edit profile', edit_user_registration_path, class: 'nav-link' %>
+      </li>
+      <li class="nav-item text-nowrap">
+        <%= link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'nav-link' %>
+      </li>
+    <% else %>
+      <li class="nav-item text-nowrap">
+        <%= link_to 'Sign up', new_user_registration_path, class: 'nav-link' %>
+      </li>
+      <li class="nav-item text-nowrap">
+        <%= link_to 'Sign in', new_user_session_path, class: 'nav-link' %>
+      </li>
+    <% end %>
+
+    </li>
+  </ul>
+</nav>
+
