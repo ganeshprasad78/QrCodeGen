@@ -29,6 +29,8 @@ class Ability
       can :marketing_assign, Product do |product|
         product.marketing_assign?
       end
+    elsif user.printer?
+      can :read, Product      
     else
       can :show, Product
     end
