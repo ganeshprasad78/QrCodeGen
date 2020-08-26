@@ -43,7 +43,12 @@ class ProductsController < ApplicationController
 
   def print_assign
     @product.assign_to_print!
-    redirect_to products_url, notice: 'Product has been assigned to Production team.'
+    redirect_to products_url, notice: 'Product has been assigned to Printing team.'
+  end
+
+  def marketing_assign
+    @product.assign_to_marketing!
+    redirect_to products_url, notice: 'Product has been assigned to Marketing team.'
   end
 
   private

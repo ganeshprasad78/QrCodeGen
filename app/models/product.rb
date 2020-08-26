@@ -4,14 +4,19 @@ class Product < ApplicationRecord
   aasm do
     state :new, initial: true
     state :in_progress
+    state :marketing
     state :complete
 
     event :assign_to_production do
       transitions to: :in_progress, from: %i[new]
     end
 
+    event :assign_to_marketing do
+      transitions to: :marketing, from: %i[in_progress]
+    end
+
     event :assign_to_print do
-      transitions to: :complete, from: %i[in_progress]
+      transitions to: :complete, from: %i[marketing]
     end
   end
   belongs_to :user
@@ -19,17 +24,29 @@ class Product < ApplicationRecord
   validates :name, presence: true
   validates :package, presence: true
 
-  scope :for_marketing, -> { where(aasm_state: %w[new in_progress complete]) }
-  scope :for_technical, -> { where(aasm_state: %w[new in_progress complete]) }
+  scope :for_marketing, -> { where(aasm_state: %w[new in_progress marketing complete]) }
+  scope :for_technical, -> { where(aasm_state: %w[new in_progress marketing complete]) }
   scope :for_production, -> { where(aasm_state: %w[new in_progress]) }
   scope :for_print, -> { where(aasm_state: %w[complete]) }
 
   def production_assign?
-    aasm_state == 'new' && !name.blank? && !package.blank? && !description.blank? && !data_sheet_url.blank? && !safety_sheet_url.blank?
+    aasm_state == 'new' && marketing_field_not_blank?
+  end
+
+  def marketing_field_not_blank?
+    !name.blank? && !package.blank? && !description.blank? && !data_sheet_url.blank? && !safety_sheet_url.blank?
   end
 
   def print_assign?
-    aasm_state == 'in_progress' && !manufacturing_date.blank? && !product_code.blank?
+    aasm_state == 'marketing' && production_not_blank?
+  end
+
+  def production_not_blank?
+    !manufacturing_date.blank? && !product_code.blank?
+  end
+
+  def marketing_assign?
+    aasm_state == 'in_progress' && production_not_blank?
   end
 
   def assigned_to
@@ -38,6 +55,8 @@ class Product < ApplicationRecord
       'marketing/technical'
     when 'in_progress'
       'production'
+    when 'marketing'
+      'marketing/technical'
     when 'complete'
       'print'
     else

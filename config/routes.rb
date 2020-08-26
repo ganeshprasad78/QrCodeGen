@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
   resources :products do
   	member do
-  	  put :production_assign, :print_assign
+  	  put :production_assign, :print_assign, :marketing_assign
   	end
   end
   resources :roles

@@ -67,3 +67,5 @@ gem 'barby',  '~> 0.6.2'
 gem "rqrcode", "~> 1.1"
 
 gem "carrierwave", "~> 2.1"
+
+gem "slim-rails", "~> 3.2"

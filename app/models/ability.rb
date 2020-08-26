@@ -26,8 +26,11 @@ class Ability
     elsif user.production?
       can :read, Product
       can %i[production_update update], Product
+      can :marketing_assign, Product do |product|
+        product.marketing_assign?
+      end
     else
-      can :read, Product
+      can :show, Product
     end
   end
 end
