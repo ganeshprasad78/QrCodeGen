@@ -1,14 +1,19 @@
 .container
   .row
     .col-9
-    .col-3.my-3
+      = form_with(url: authenticate_pin_product_url(@product), method: :put, class: 'form-inline') do |form|
+        .form-group.mb-2
+          label.sr-only Pin
+          = text_field_tag :email, 'Enter Pin for details', class: 'form-control-plaintext'
+        .form-group.mx-sm-3.mb-2
+          label.sr-only Pin
+          = text_field_tag :pin, '', class: 'form-control', placeholder: 'Pin'
+        button.btn.btn-primary.mb-2 Detail
+    .col-3
       - if can? :print, @product
         = link_to icon_link('print', 'Print'), "", id: 'printProductDetails', 'data-area' => 'printableArea', class: 'btn btn-lg pull-right btn-info'
   .row#printableArea
-    = render 'product', product: @product
+    = render 'product', product: @product, detailed: false
 
-  .row
-    .col-12.my-2
-      = link_to 'Product Data Sheet', @product.safety_sheet_url, target: '_blank'  unless @product.data_sheet_hidden
-    .col-12
-      = link_to 'Material Safety Sheet', @product.safety_sheet_url, target: '_blank' unless @product.safety_sheet_hidden
+  .row#product_links
+    = render 'product_links', product: @product, detailed: false

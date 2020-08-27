@@ -1,0 +1,4 @@
+.col-12.my-2
+  = link_to 'Product Data Sheet', @product.safety_sheet_url, target: '_blank'  unless @product.data_sheet_hidden && !detailed
+.col-12
+  = link_to 'Material Safety Sheet', @product.safety_sheet_url, target: '_blank' unless @product.safety_sheet_hidden && !detailed

@@ -1,7 +1,7 @@
 class ProductsController < ApplicationController
-  before_action :authenticate_user!, except: %i[show]
+  before_action :authenticate_user!, except: %i[show authenticate_pin]
   load_and_authorize_resource :except => [:show]
-  before_action :set_product, only: %i[show edit update production_assign print_assign print generate_qr_code]
+  before_action :set_product, only: %i[authenticate_pin show edit update production_assign print_assign print generate_qr_code]
 
   def index
     search_products
@@ -53,6 +53,15 @@ class ProductsController < ApplicationController
 
   def print
     render layout: 'print'
+  end
+
+  def authenticate_pin
+    @detailed = if params[:pin] == '1234'
+                  true
+                else 
+                  false
+                end
+    render :product
   end
 
   private

@@ -6,20 +6,20 @@
     .col-4
       strong Name:
     .col-8
-      = product.name unless product.name_hidden
+      = product.name unless product.name_hidden && !detailed
     .col-4
       strong Product package:
     .col-8
-      = product.package unless product.package_hidden
+      = product.package unless product.package_hidden && !detailed
     .col-4
       strong Manufactured date:
     .col-8
-      = date_format product.manufacturing_date  unless product.manufacturing_date_hidden
+      = date_format product.manufacturing_date  unless product.manufacturing_date_hidden && !detailed
     .col-4
       strong Product code:
     .col-8
-      = product.product_code unless product.product_code_hidden
+      = product.product_code unless product.product_code_hidden && !detailed
     .col-4
       strong Application:
     .col-8
-      = product.application unless product.application_hidden
+      = product.application unless product.application_hidden && !detailed
