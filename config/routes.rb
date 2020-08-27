@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resources :products do
   	member do
       get :print
-  	  put :production_assign, :print_assign, :marketing_assign
+  	  put :generate_qr_code, :production_assign, :print_assign, :marketing_assign
   	end
   end
 

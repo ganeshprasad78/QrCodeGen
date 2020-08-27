@@ -2,7 +2,7 @@
   .row
     .col-9
     .col-3.my-3
-      - if can? :print, Product
+      - if can? :print, @product
         = link_to icon_link('print', 'Print'), "", id: 'printProductDetails', 'data-area' => 'printableArea', class: 'btn btn-lg pull-right btn-info'
   .row#printableArea
     = render 'product', product: @product

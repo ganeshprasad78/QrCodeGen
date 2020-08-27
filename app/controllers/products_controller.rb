@@ -1,7 +1,7 @@
 class ProductsController < ApplicationController
   before_action :authenticate_user!, except: %i[show]
   load_and_authorize_resource :except => [:show]
-  before_action :set_product, only: %i[show edit update production_assign print_assign print]
+  before_action :set_product, only: %i[show edit update production_assign print_assign print generate_qr_code]
 
   def index
     search_products
@@ -44,6 +44,11 @@ class ProductsController < ApplicationController
   def print_assign
     @product.assign_to_print!
     redirect_to products_url, notice: 'Product has been assigned to Printing team.'
+  end
+
+  def generate_qr_code
+    @product.generate_qr_code!
+    redirect_to products_url, notice: 'Qr code has been generated.'
   end
 
   def print

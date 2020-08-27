@@ -21,14 +21,16 @@ h2.heading Products
           td = product.product_code
           td = date_format product.manufacturing_date
           td = product.assigned_to.titleize
-          td = product.aasm_state.titleize
+          td = product.state
           td
+            - if can? :generate_qr_code, product
+              = link_to icon_link('qrcode', 'Generate QR Code'), generate_qr_code_product_url(product), method: :put, class: 'btn btn-sm btn-light'
             - if can? :production_assign, product
-              = link_to icon_link('external-link-alt', 'Assign to Production'), production_assign_product_url(product), method: :put, class: 'btn btn-sm btn-light', data: { confirm: "Are you sure you want to assign #{product.name} to production?" }
+              = link_to icon_link('external-link-alt', 'Assign for approval'), production_assign_product_url(product), method: :put, class: 'btn btn-sm btn-light', data: { confirm: "Are you sure you want to assign #{product.name} for approval?" }
             - if can? :print_assign, product
-              = link_to icon_link('qrcode', 'Generate QR Code'), print_assign_product_url(product), method: :put, class: 'btn btn-sm btn-light', data: { confirm: "Are you sure you want to assign #{product.name} to print?" }
+              = link_to icon_link('print', 'Assign to Print'), print_assign_product_url(product), method: :put, class: 'btn btn-sm btn-light', data: { confirm: "Are you sure you want to assign #{product.name} to print?" }
             - if can? :update, Product
               = link_to icon_link('edit', 'Edit'), edit_product_path(product), class: 'btn btn-sm btn-success'
-            - if can? :print, Product
+            - if can? :print, product
               = link_to icon_link('print', 'Print'), print_product_url(product), class: 'btn btn-sm btn-info', target: '_blank'
   = will_paginate @products

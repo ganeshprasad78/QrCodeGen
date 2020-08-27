@@ -1,5 +1,5 @@
 .col-5
-  - if product.complete?
+  - if can? :print, product
     img.qr-code.img-responsive src="#{ generate_qr(product) }"
 .col-6
   .row
