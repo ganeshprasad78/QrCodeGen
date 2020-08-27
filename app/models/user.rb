@@ -7,22 +7,27 @@ class User < ApplicationRecord
   belongs_to :role
 
   def admin?
+    return unless role
     role.name == 'Admin'
   end
 
   def production?
+    return unless role
     role.name == 'Production'
   end
 
   def marketing?
+    return unless role
     role.name == 'Marketing'
   end
 
   def technical?
+    return unless role
     role.name == 'Technical'
   end
 
   def printer?
+    return unless role
     role.name == 'Printer'
   end
 

@@ -11,18 +11,16 @@ class Product < ApplicationRecord
       transitions to: :in_progress, from: %i[new]
     end
 
-    event :assign_to_marketing do
-      transitions to: :marketing, from: %i[in_progress]
-    end
-
     event :assign_to_print do
-      transitions to: :complete, from: %i[marketing]
+      transitions to: :complete, from: %i[in_progress]
     end
   end
-  belongs_to :user
 
-  validates :name, presence: true
-  validates :package, presence: true
+  belongs_to :user
+  belongs_to :master_list
+
+  delegate :name, :name_hidden, :package, :package_hidden, :application, :application_hidden,
+           :data_sheet_url, :data_sheet_hidden, :safety_sheet_url, :safety_sheet_hidden, to: :master_list, allow_nil: true
 
   scope :for_marketing, -> { where(aasm_state: %w[new in_progress marketing complete]) }
   scope :for_technical, -> { where(aasm_state: %w[new in_progress marketing complete]) }
@@ -34,19 +32,15 @@ class Product < ApplicationRecord
   end
 
   def marketing_field_not_blank?
-    !name.blank? && !package.blank? && !description.blank? && !data_sheet_url.blank? && !safety_sheet_url.blank?
+    !name.blank? && !package.blank? && !application.blank? && !data_sheet_url.blank? && !safety_sheet_url.blank?
   end
 
   def print_assign?
-    aasm_state == 'marketing' && production_not_blank?
+    aasm_state == 'in_progress' && production_not_blank?
   end
 
   def production_not_blank?
     !manufacturing_date.blank? && !product_code.blank?
-  end
-
-  def marketing_assign?
-    aasm_state == 'in_progress' && production_not_blank?
   end
 
   def assigned_to
@@ -55,8 +49,6 @@ class Product < ApplicationRecord
       'marketing/technical'
     when 'in_progress'
       'production'
-    when 'marketing'
-      'marketing/technical'
     when 'complete'
       'print'
     else

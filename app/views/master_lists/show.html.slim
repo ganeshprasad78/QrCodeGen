@@ -1,0 +1,20 @@
+.container
+  .row
+    .col-8
+      .row
+        .col-4
+          strong Name:
+        .col-8
+          = @master_list.name
+        .col-4
+          strong Product package:
+        .col-8
+          = @master_list.package
+        .col-4
+          strong Application:
+        .col-8
+          = @master_list.application
+        .col-12.my-2
+          = link_to 'Product Data Sheet', @master_list.safety_sheet_url, target: '_blank'
+        .col-12
+          = link_to 'Material Safety Sheet', @master_list.safety_sheet_url, target: '_blank'

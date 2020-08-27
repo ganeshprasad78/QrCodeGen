@@ -12,44 +12,58 @@
       tr
         td
           = form.label 'Product Name', class: 'form-control text-right'
-        td colspan='2'
-          = form.text_field :name, class: 'form-control', disabled: !(can? :create, Product)
+        td colspan='3'
+          - if (can? :create, Product)
+            = form.select :master_list_id, options_for_select(MasterList.order(:name).collect{ |ml| [ml.name, ml.id] }, @product.master_list_id), { include_blank: true }, class: 'form-control'
+          - else
+            = form.text_field :name, class: 'form-control', disabled: true
+        td
       tr
         td
           = form.label 'Product package', class: 'form-control text-right'
-        td colspan='2'
-          = form.text_field :package, class: 'form-control', disabled: !(can? :create, Product)
+        td colspan='3'
+          = form.text_field :package, class: 'form-control', disabled: true
+        td
       tr
         td
           = form.label :manufacturing_date, class: 'form-control text-right'
-        td
+        td colspan='3'
           = form.text_field :manufacturing_date, class: 'form-control', disabled: !(can? :production_update, Product), value: date_format(@product.manufacturing_date)
+        td
+          .input-group-text
+            = form.check_box :manufacturing_date_hidden, disabled: !(can? :production_update, Product)
       tr
         td
           = form.label :product_code, class: 'form-control text-right'
-        td
+        td colspan='3'
           = form.text_field :product_code, class: 'form-control', disabled: !(can? :production_update, Product)
+        td
+          .input-group-text
+            = form.check_box :product_code_hidden, disabled: !(can? :production_update, Product)
       tr
         td
           = form.label 'Application', class: 'form-control text-right'
+        td colspan='3'
+          = form.text_area :application, class: 'form-control', disabled: true
         td
-          = form.text_area :description, class: 'form-control', disabled: !(can? :create, Product)
       tr
         td
           = form.label :data_sheet_url, class: 'form-control text-right'
+        td colspan='3'
+          = form.text_field :data_sheet_url, class: 'form-control col-12', disabled: true
         td
-          = form.text_field :data_sheet_url, class: 'form-control col-12', disabled: !(can? :create, Product)
       tr
         td
           = form.label :safety_sheet_url, class: 'form-control text-right'
+        td colspan='3'
+          = form.text_field :safety_sheet_url, class: 'form-control col-12', disabled: true
         td
-          = form.text_field :safety_sheet_url, class: 'form-control col-12', disabled: !(can? :create, Product)
   .form-group.row
     .col-3
     .col-2
-      = form.submit 'Save', class: 'btn btn-lg btn-success pull-right'
+      = form.button icon_link('save', 'Save'), class: 'btn btn-lg btn-success pull-right'
     .col-2
-      = link_to 'Cancel', products_path, class: 'btn btn-lg btn-warning pull-right'
+      = link_to icon_link('info-circle', 'Cancel'), products_path, class: 'btn btn-lg btn-warning pull-right'
 
 - if (can? :production_update, Product)
   javascript:

@@ -1,0 +1,34 @@
+.row.my-2
+  .col-9
+  .col-3
+    - if can? :create, Product
+      = link_to icon_link('plus-square', 'New'), new_product_path, class: 'btn btn-lg btn-info pull-right'
+h2.heading Products
+- unless @products.blank?
+  table.table
+    thead
+      tr
+        td Product Name
+        td Product Code
+        td Manufacturing Date
+        td Assigned To
+        td Status
+        td colspan='4'
+    tbody
+      - @products.each do |product|
+        tr
+          td = link_to product.name, product
+          td = product.product_code
+          td = date_format product.manufacturing_date
+          td = product.assigned_to.titleize
+          td = product.aasm_state.titleize
+          td
+            - if can? :production_assign, product
+              = link_to icon_link('external-link-alt', 'Assign to Production'), production_assign_product_url(product), method: :put, class: 'btn btn-sm btn-light', data: { confirm: "Are you sure you want to assign #{product.name} to production?" }
+            - if can? :print_assign, product
+              = link_to icon_link('qrcode', 'Generate QR Code'), print_assign_product_url(product), method: :put, class: 'btn btn-sm btn-light', data: { confirm: "Are you sure you want to assign #{product.name} to print?" }
+            - if can? :update, Product
+              = link_to icon_link('edit', 'Edit'), edit_product_path(product), class: 'btn btn-sm btn-success'
+            - if can? :print, Product
+              = link_to icon_link('print', 'Print'), print_product_url(product), class: 'btn btn-sm btn-info', target: '_blank'
+  = will_paginate @products

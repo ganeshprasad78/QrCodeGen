@@ -1,0 +1,24 @@
+.row.my-2
+  .col-9
+  .col-3.pull-right
+    - if can? :create, MasterList
+      = link_to icon_link('plus-square', 'New'), new_master_list_path, class: 'btn btn-lg btn-info pull-right'
+  
+  h2.heading Master Lists
+  - unless @master_lists.blank?
+    table.table
+      thead
+        tr
+          td Product Name
+          td Product Package
+          td colspan='3'
+      tbody
+        - @master_lists.each do |master_list|
+          tr
+            td = link_to master_list.name, master_list
+            td = master_list.package
+            td
+              = link_to icon_link('edit', 'Edit'), edit_master_list_path(master_list), class: 'btn btn-sm btn-success'
+              = link_to archive_icon(master_list), master_list_path(master_list), method: :delete, class: 'btn btn-danger btn-sm', data: { confirm: "Are you sure you want to #{master_list_delete_term(master_list)} #{master_list.name}" }
+
+    = will_paginate @master_lists

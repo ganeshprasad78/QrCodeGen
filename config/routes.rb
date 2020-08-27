@@ -2,9 +2,12 @@ Rails.application.routes.draw do
   devise_for :users
   resources :products do
   	member do
+      get :print
   	  put :production_assign, :print_assign, :marketing_assign
   	end
   end
+
+  resources :master_lists
   resources :roles
   scope '/admin'  do 
   	resources :users

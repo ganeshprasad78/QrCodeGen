@@ -10,25 +10,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_25_085316) do
+ActiveRecord::Schema.define(version: 2020_08_27_033103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "products", force: :cascade do |t|
+  create_table "master_lists", force: :cascade do |t|
     t.string "name"
-    t.text "description"
-    t.decimal "price", precision: 5, scale: 2
+    t.text "application"
+    t.bigint "user_id", null: false
+    t.string "package"
+    t.string "data_sheet_url"
+    t.string "safety_sheet_url"
+    t.boolean "archived", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.boolean "name_hidden", default: false, null: false
+    t.boolean "application_hidden", default: false, null: false
+    t.boolean "package_hidden", default: false, null: false
+    t.boolean "data_sheet_hidden", default: false, null: false
+    t.boolean "safety_sheet_hidden", default: false, null: false
+    t.index ["user_id"], name: "index_master_lists_on_user_id"
+  end
+
+  create_table "products", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "package"
     t.date "manufacturing_date"
     t.string "product_code"
-    t.string "data_sheet_url"
-    t.string "safety_sheet_url"
     t.string "aasm_state"
     t.string "qr_code"
+    t.boolean "manufacturing_date_hidden", default: false, null: false
+    t.boolean "product_code_hidden", default: false, null: false
+    t.integer "master_list_id", null: false
     t.index ["user_id"], name: "index_products_on_user_id"
   end
 
@@ -71,5 +86,6 @@ ActiveRecord::Schema.define(version: 2020_08_25_085316) do
     t.index ["role_id"], name: "index_users_on_role_id"
   end
 
+  add_foreign_key "master_lists", "users"
   add_foreign_key "products", "users"
 end

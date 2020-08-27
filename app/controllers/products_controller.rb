@@ -1,7 +1,7 @@
 class ProductsController < ApplicationController
   before_action :authenticate_user!, except: %i[show]
   load_and_authorize_resource :except => [:show]
-  before_action :set_product, only: %i[show edit update production_assign print_assign]
+  before_action :set_product, only: %i[show edit update production_assign print_assign print]
 
   def index
     search_products
@@ -46,9 +46,8 @@ class ProductsController < ApplicationController
     redirect_to products_url, notice: 'Product has been assigned to Printing team.'
   end
 
-  def marketing_assign
-    @product.assign_to_marketing!
-    redirect_to products_url, notice: 'Product has been assigned to Marketing team.'
+  def print
+    render layout: 'print'
   end
 
   private
@@ -76,6 +75,7 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    params.require(:product).permit(:name, :description, :package, :manufacturing_date, :product_code, :data_sheet_url, :safety_sheet_url).merge!(user: current_user)
+    params.require(:product).permit(:master_list_id, :manufacturing_date, :product_code,
+                                    :manufacturing_date_hidden, :product_code_hidden).merge!(user: current_user)
   end
 end

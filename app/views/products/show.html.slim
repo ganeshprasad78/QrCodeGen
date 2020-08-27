@@ -1,31 +1,14 @@
 .container
   .row
-    .col-4
-      - if @product.complete?
-        img.qr-code.img-responsive src="#{ generate_qr(@product) }"
-    .col-8
-      .row
-        .col-4
-          strong Name:
-        .col-8
-          = @product.name
-        .col-4
-          strong Product package:
-        .col-8
-          = @product.package
-        .col-4
-          strong Manufactured date:
-        .col-8
-          = date_format @product.manufacturing_date
-        .col-4
-          strong Product code:
-        .col-8
-          = @product.product_code
-        .col-4
-          strong Application:
-        .col-8
-          = @product.description
-        .col-12.my-2
-          = link_to 'Product Data Sheet', @product.safety_sheet_url, target: '_blank'
-        .col-12
-          = link_to 'Material Safety Sheet', @product.safety_sheet_url, target: '_blank'
+    .col-9
+    .col-3.my-3
+      - if can? :print, Product
+        = link_to icon_link('print', 'Print'), "", id: 'printProductDetails', 'data-area' => 'printableArea', class: 'btn btn-lg pull-right btn-info'
+  .row#printableArea
+    = render 'product', product: @product
+
+  .row
+    .col-12.my-2
+      = link_to 'Product Data Sheet', @product.safety_sheet_url, target: '_blank'  unless @product.data_sheet_hidden
+    .col-12
+      = link_to 'Material Safety Sheet', @product.safety_sheet_url, target: '_blank' unless @product.safety_sheet_hidden

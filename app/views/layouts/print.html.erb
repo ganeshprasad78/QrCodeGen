@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= application_name %></title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body onload="window.print();">
+    <div  class='container-fluid'>
+      <div class='row'>
+        <main role="main" class="col-10 ml-sm-auto px-4">
+          <br/>
+          <%= yield %>
+        </main>      
+      </div>
+    </div>
+  </body>
+</html>

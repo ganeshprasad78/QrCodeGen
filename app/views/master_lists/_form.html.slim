@@ -1,0 +1,57 @@
+= form_with(model: master_list, local: true) do |form|
+  - if master_list.errors.any?
+    #error_explanation
+      h2
+        = "#{ pluralize(master_list.errors.count, "error") } prohibited this product from being saved:"
+    ul
+      - master_list.errors.full_messages.each do |message|
+        li = "#{message}"
+
+  table.table.col-7
+    tbody
+      tr
+        td
+          = form.label 'Product Name', class: 'form-control text-right'
+        td colspan='2'
+          = form.text_field :name, class: 'form-control'
+        td
+          .input-group-text
+            = form.check_box :name_hidden
+      tr
+        td
+          = form.label 'Product package', class: 'form-control text-right'
+        td colspan='2'
+          = form.text_field :package, class: 'form-control'
+        td
+          .input-group-text
+            = form.check_box :package_hidden
+      tr
+        td
+          = form.label 'Application', class: 'form-control text-right'
+        td colspan='2'
+          = form.text_area :application, class: 'form-control'
+        td
+          .input-group-text
+            = form.check_box :application_hidden
+      tr
+        td
+          = form.label :data_sheet_url, class: 'form-control text-right'
+        td colspan='2'
+          = form.text_field :data_sheet_url, class: 'form-control col-12'
+        td
+          .input-group-text
+            = form.check_box :data_sheet_hidden
+      tr
+        td
+          = form.label :safety_sheet_url, class: 'form-control text-right'
+        td colspan='2'
+          = form.text_field :safety_sheet_url, class: 'form-control col-12'
+        td
+          .input-group-text
+            = form.check_box :safety_sheet_hidden
+  .form-group.row
+    .col-3
+    .col-2
+      = form.button icon_link('save', 'Save'), class: 'btn btn-lg btn-success pull-right'
+    .col-2
+      = link_to icon_link('info-circle', 'Cancel'), master_lists_path, class: 'btn btn-lg btn-warning pull-right'

@@ -69,3 +69,6 @@ gem "rqrcode", "~> 1.1"
 gem "carrierwave", "~> 2.1"
 
 gem "slim-rails", "~> 3.2"
+
+gem 'font_awesome5_rails'
+
