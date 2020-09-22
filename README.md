@@ -2,6 +2,8 @@ QrCodeGen
 ruby - 2.6.2
 rails - 6.0.3.2
 
+UAT: http://qrcodege.herokuapp.com/
+
 run rake db:seed and you should have logins with different roles
 
 1. Product name : GulfSea Cylcare DCA 5040
